@@ -45,3 +45,11 @@ $ mvn cloudformation:push-stack
 ```shell
 $ mvn -Pdeploy deploy
 ```
+
+  * Re-create the hook, this time using the resulting API Gateway endpoint URL e.g.: ```https://03q0sa93j9.execute-api.us-east-1.amazonaws.com/dev/bot```
+  
+  * Once valid, replace the Token on env.properties and redo the deployment from:
+
+```shell
+$ mvn -Pdeploy deploy
+```
