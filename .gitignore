@@ -1,0 +1,14 @@
+.project
+.classpath
+.settings/
+.metadata/
+.idea
+*.iml
+
+bin/
+target/
+
+release.properties
+pom.xml.releaseBackup.bootstrap.sh
+
+env.properties
