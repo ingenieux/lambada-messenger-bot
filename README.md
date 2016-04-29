@@ -1,4 +1,4 @@
-# Lambada: The Game (as a Telegram Bot)
+# Lambada: The Game (as a Facebook Messenger Bot)
 
 ## What is it?
 
