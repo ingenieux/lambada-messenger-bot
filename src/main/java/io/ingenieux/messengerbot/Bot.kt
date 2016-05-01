@@ -30,6 +30,7 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.charset.Charset
 
 class Bot {
     val MAPPER = ObjectMapper()
@@ -47,6 +48,8 @@ class Bot {
     fun validateBot(i: InputStream, o: OutputStream, c: Context) {
         val request = PassthroughRequest.getRequest(MAPPER, i);
 
+        LOGGER.info("request: {}", MAPPER.writeValueAsString(request));
+
         if ("subscribe".equals(request.params.queryString["hub.mode"])) {
             val result = request.params.queryString["hub.challenge"]!!
 
@@ -63,24 +66,13 @@ class Bot {
                     ApiGateway(path = "/bot")
             ))
     fun doMessage(i: InputStream, o: OutputStream, c: Context) {
-        val byteArrayOutputStream = ByteArrayOutputStream()
+        var request = PassthroughRequest.getRequest(MAPPER, Notification::class.java, i)
 
-        i.copyTo(byteArrayOutputStream)
+        LOGGER.info("Request: {}", MAPPER.writeValueAsString(request));
 
-        // Hijack if we are in subscribe mode
-        if (true) {
-            validateBot(ByteArrayInputStream(byteArrayOutputStream.toByteArray()), o, c)
-
-            return
-        }
-
-        var request2 = PassthroughRequest.getRequest(MAPPER, Notification::class.java, ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
-
-        LOGGER.info("Request: {}", request2);
-
-        request2.body.entries?.forEach { entry ->
+        request.body.entries?.forEach { entry ->
             entry.messagingEntries?.forEach {
-                handleMessage(request2, it)
+                handleMessage(request, it)
             }
         }
     }
@@ -191,7 +183,7 @@ class Bot {
                         .body(payloadAsString)
                         .asString()
 
-        LOGGER.info("response: {}", response)
+        LOGGER.info("response: ${response} (status=${response.status}, body=${response.body})")
 
         assert(200 == response.status)
     }

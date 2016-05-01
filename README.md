@@ -2,7 +2,9 @@
 
 ## What is it?
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/JE_FWIicTXw" frameborder="0" allowfullscreen></iframe>
+![Choose your Own Adventure](http://i.makeagif.com/media/5-01-2016/IBGBZ0.gif)
+
+https://www.youtube.com/watch?v=JE_FWIicTXw
 
 It is a story player (based on the [CYO format](http://danielstern.github.io/cyo/), but with XML Normalized), meant to be used with Facebook Messenger Platform
 

@@ -35,8 +35,11 @@
 
         <lambda.deploy.publish>true</lambda.deploy.publish>
 
-        <beanstalk.s3Key>apps/${project.artifactId}/${project.artifactId}-${beanstalk.versionLabel}.zip</beanstalk.s3Key>
-        <beanstalk.artifactFile>${project.basedir}/target/${project.artifactId}.jar</beanstalk.artifactFile>
+        <beanstalk.s3Key>
+            apps/${project.artifactId}/${project.artifactId}-${beanstalk.versionLabel}.zip
+        </beanstalk.s3Key>
+        <beanstalk.artifactFile>${project.basedir}/target/${project.artifactId}.jar
+        </beanstalk.artifactFile>
     </properties>
 
     <dependencyManagement>
@@ -185,6 +188,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>br.com.ingenieux</groupId>
+                <artifactId>cloudwatch-maven-plugin</artifactId>
+                <version>${beanstalker.version}</version>
             </plugin>
         </plugins>
     </build>
