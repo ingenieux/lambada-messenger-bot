@@ -47,6 +47,13 @@ class Bot {
     fun validateBot(i: InputStream, o: OutputStream, c: Context) {
         val request = PassthroughRequest.getRequest(MAPPER, i);
 
+        if ("subscribe".equals(request.params.queryString["hub.mode"])) {
+            val result = request.params.queryString["hub.challenge"]!!
+
+            o.write(result.toByteArray())
+
+            return
+        }
     }
 
     @LambadaFunction(name = "fb_doMessage",
@@ -62,15 +69,9 @@ class Bot {
 
         // Hijack if we are in subscribe mode
         if (true) {
-            var request = PassthroughRequest.getRequest(MAPPER, ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+            validateBot(ByteArrayInputStream(byteArrayOutputStream.toByteArray()), o, c)
 
-            if ("subscribe".equals(request.params.queryString["hub.mode"])) {
-                val result = request.params.queryString["hub.challenge"]!!
-
-                o.write(result.toByteArray())
-
-                return
-            }
+            return
         }
 
         var request2 = PassthroughRequest.getRequest(MAPPER, Notification::class.java, ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
