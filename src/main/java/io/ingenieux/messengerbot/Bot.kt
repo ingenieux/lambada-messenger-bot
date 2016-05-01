@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.mashape.unirest.http.Unirest
 import io.ingenieux.lambada.runtime.ApiGateway
 import io.ingenieux.lambada.runtime.LambadaFunction
-import io.ingenieux.lambada.runtime.model.PassthoughRequest
+import io.ingenieux.lambada.runtime.model.PassthroughRequest
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -45,7 +45,7 @@ class Bot {
                     )
             ))
     fun validateBot(i: InputStream, o: OutputStream, c: Context) {
-        val request = PassthoughRequest.getRequest(MAPPER, i);
+        val request = PassthroughRequest.getRequest(MAPPER, i);
 
     }
 
@@ -62,7 +62,7 @@ class Bot {
 
         // Hijack if we are in subscribe mode
         if (true) {
-            var request = PassthoughRequest.getRequest(MAPPER, ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+            var request = PassthroughRequest.getRequest(MAPPER, ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
 
             if ("subscribe".equals(request.params.queryString["hub.mode"])) {
                 val result = request.params.queryString["hub.challenge"]!!
@@ -73,7 +73,7 @@ class Bot {
             }
         }
 
-        var request2 = PassthoughRequest.getRequest(MAPPER, Notification::class.java, ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
+        var request2 = PassthroughRequest.getRequest(MAPPER, Notification::class.java, ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
 
         LOGGER.info("Request: {}", request2);
 
@@ -86,7 +86,7 @@ class Bot {
 
     val storyMap = StoryParser().parseStory();
 
-    fun handleMessage(req: PassthoughRequest<Notification>, m: MessagingEntry) {
+    fun handleMessage(req: PassthroughRequest<Notification>, m: MessagingEntry) {
         if (null != m.delivery)
             return
 
@@ -112,7 +112,7 @@ class Bot {
         }
     }
 
-    fun sendMessage(req: PassthoughRequest<Notification>, sender: IdContainer, s: StoryParser.StoryEntry) {
+    fun sendMessage(req: PassthroughRequest<Notification>, sender: IdContainer, s: StoryParser.StoryEntry) {
         sendMessage(req, sender, s.text)
 
         val payload = MAPPER.createObjectNode()
@@ -169,7 +169,7 @@ class Bot {
         assert(200 == response.status)
     }
 
-    fun sendMessage(req: PassthoughRequest<Notification>, sender: IdContainer, s: String) {
+    fun sendMessage(req: PassthroughRequest<Notification>, sender: IdContainer, s: String) {
         val payload = MAPPER.createObjectNode()
 
         payload
