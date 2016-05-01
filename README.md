@@ -26,7 +26,9 @@ $ mvn compile lambada:serve
 
   * Then, create a page and an application. Set the webhooks to:
 
-```https://<your-ngrok-io>.ngrok.io/bot```
+```
+https://<your-ngrok-io>.ngrok.io/bot
+```
 
   * Now edit and add the token to env.properties
 
