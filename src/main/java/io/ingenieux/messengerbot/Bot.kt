@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.mashape.unirest.http.Unirest
 import io.ingenieux.lambada.runtime.ApiGateway
 import io.ingenieux.lambada.runtime.LambadaFunction
+import io.ingenieux.lambada.runtime.LambadaUtils
 import io.ingenieux.lambada.runtime.model.PassthroughRequest
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
@@ -46,7 +47,7 @@ class Bot {
                     )
             ))
     fun validateBot(i: InputStream, o: OutputStream, c: Context) {
-        val request = PassthroughRequest.getRequest(MAPPER, i);
+        val request = LambadaUtils.getRequest(MAPPER, i);
 
         LOGGER.info("request: {}", MAPPER.writeValueAsString(request));
 
@@ -66,7 +67,7 @@ class Bot {
                     ApiGateway(path = "/bot")
             ))
     fun doMessage(i: InputStream, o: OutputStream, c: Context) {
-        var request = PassthroughRequest.getRequest(MAPPER, Notification::class.java, i)
+        var request = LambadaUtils.getRequest(MAPPER, Notification::class.java, i)
 
         LOGGER.info("Request: {}", MAPPER.writeValueAsString(request));
 
